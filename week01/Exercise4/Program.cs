@@ -20,7 +20,8 @@ class Program
                 numbers.Add(magicNumber);
             }
 
-        } while (magicNumber != 0);  
+        } 
+        while (magicNumber != 0);  
 
         // Compute the sum
         int sum = numbers.Sum();
