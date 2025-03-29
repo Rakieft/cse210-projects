@@ -1,149 +1,39 @@
 using System;
-using System.Collections.Generic;
-
-class Product
-{
-    private string name;
-    private string productId;
-    private double price;
-    private int quantity;
-
-    public Product(string name, string productId, double price, int quantity)
-    {
-        this.name = name;
-        this.productId = productId;
-        this.price = price;
-        this.quantity = quantity;
-    }
-
-    public double GetTotalCost()
-    {
-        return price * quantity;
-    }
-
-    public string GetPackingLabel()
-    {
-        return $"{name} (ID: {productId})";
-    }
-}
-
-class Address
-{
-    private string street;
-    private string city;
-    private string state;
-    private string country;
-
-    public Address(string street, string city, string state, string country)
-    {
-        this.street = street;
-        this.city = city;
-        this.state = state;
-        this.country = country;
-    }
-
-    public bool IsInUSA()
-    {
-        return country.ToLower() == "usa";
-    }
-
-    public string GetFullAddress()
-    {
-        return $"{street}\n{city}, {state}\n{country}";
-    }
-}
-
-class Customer
-{
-    private string name;
-    private Address address;
-
-    public Customer(string name, Address address)
-    {
-        this.name = name;
-        this.address = address;
-    }
-
-    public bool IsInUSA()
-    {
-        return address.IsInUSA();
-    }
-
-    public string GetShippingLabel()
-    {
-        return $"{name}\n{address.GetFullAddress()}";
-    }
-}
-
-class Order
-{
-    private List<Product> products;
-    private Customer customer;
-
-    public Order(Customer customer)
-    {
-        this.customer = customer;
-        products = new List<Product>();
-    }
-
-    public void AddProduct(Product product)
-    {
-        products.Add(product);
-    }
-
-    public double GetTotalPrice()
-    {
-        double total = 0;
-        foreach (var product in products)
-        {
-            total += product.GetTotalCost();
-        }
-        total += customer.IsInUSA() ? 5 : 35;
-        return total;
-    }
-
-    public string GetPackingLabel()
-    {
-        string label = "Packing List:\n";
-        foreach (var product in products)
-        {
-            label += "- " + product.GetPackingLabel() + "\n";
-        }
-        return label;
-    }
-
-    public string GetShippingLabel()
-    {
-        return "Shipping To:\n" + customer.GetShippingLabel();
-    }
-}
 
 class Program
 {
     static void Main()
     {
-        Address address1 = new Address("123 Main St", "New York", "NY", "USA");
-        Customer customer1 = new Customer("Quelitho Gabriel", address1);
-        
-        Order order1 = new Order(customer1);
-        order1.AddProduct(new Product("Laptop", "LAP123", 999.99, 1));
-        order1.AddProduct(new Product("Mouse", "MOU456", 25.50, 2));
-        
-        Console.WriteLine(order1.GetPackingLabel());
-        Console.WriteLine(order1.GetShippingLabel());
-        Console.WriteLine("Total Price: $" + order1.GetTotalPrice());
+        // Creating first customer with an address
+        Address address1 = new Address("123 Elm Street", "Springfield", "Illinois", "USA");
+        Customer client1 = new Customer("Quelitho Gabriel", address1);
 
-        Console.WriteLine();
+        // Creating Order 1 and adding products
+        Order order1 = new Order(client1);
+        order1.AddItem(new Product("Laptop", "LPT123", 1200, 1));
+        order1.AddItem(new Product("Mechanical Keyboard", "KB456", 100, 1));
 
-        Address address2 = new Address("456 Queen St", "Toronto", "ON", "Canada");
-        Customer customer2 = new Customer("Kieft Raphter Joly", address2);
-        
-        Order order2 = new Order(customer2);
-        order2.AddProduct(new Product("Tablet", "TAB789", 499.99, 1));
-        order2.AddProduct(new Product("Keyboard", "KEY012", 75.00, 1));
-        
-        Console.WriteLine(order2.GetPackingLabel());
-        Console.WriteLine(order2.GetShippingLabel());
-        Console.WriteLine("Total Price: $" + order2.GetTotalPrice());
+        // Display results for Order 1
+        Console.WriteLine("======== ORDER 1 ========");
+        Console.WriteLine(order1.GeneratePackingSlip());
+        Console.WriteLine("\n🚚 Shipping Label:");
+        Console.WriteLine(order1.GenerateShippingLabel());
+        Console.WriteLine($"\n💰 Total Cost: ${order1.ComputeTotal():0.00}\n");
+
+        // Creating second customer with a non-USA address
+        Address address2 = new Address("456 Rue st- Louis Jeanty", "Port-au-Prince", "Petion-Ville", "Haiti");
+        Customer client2 = new Customer("Kieft Raphter Joly", address2);
+
+        // Creating Order 2 with different products
+        Order order2 = new Order(client2);
+        order2.AddItem(new Product("Graphics Tablet", "TAB789", 450, 1));
+        order2.AddItem(new Product("Digital Stylus", "STY101", 30, 2));
+
+        // Display results for Order 2
+        Console.WriteLine("======== ORDER 2 ========");
+        Console.WriteLine(order2.GeneratePackingSlip());
+        Console.WriteLine("\n🚚 Shipping Label:");
+        Console.WriteLine(order2.GenerateShippingLabel());
+        Console.WriteLine($"\n💰 Total Cost: ${order2.ComputeTotal():0.00}");
     }
 }
