@@ -8,9 +8,9 @@ public class Program
         // Create a list of activities with examples of each type
         List<Activity> activities = new List<Activity>
         {
-            new Running(new DateTime(2022, 11, 3), 30, 5.0), // Running activity for 30 minutes with a distance of 5 km
-            new Cycling(new DateTime(2022, 11, 3), 30, 20.0), // Cycling activity for 30 minutes with a speed of 20 km/h
-            new Swimming(new DateTime(2022, 11, 3), 30, 40)   // Swimming activity for 30 minutes with 40 laps
+            new Running(new DateTime(2023, 08, 3), 30, 5.0), // Running activity for 30 minutes with a distance of 5 km
+            new Cycling(new DateTime(2023, 08, 3), 30, 20.0), // Cycling activity for 30 minutes with a speed of 20 km/h
+            new Swimming(new DateTime(2024, 12, 3), 30, 40)   // Swimming activity for 30 minutes with 40 laps
         };
 
         // Create an ActivityTracker instance to manage statistics and personal records
